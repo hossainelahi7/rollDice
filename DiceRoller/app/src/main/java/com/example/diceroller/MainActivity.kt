@@ -17,7 +17,9 @@ package com.example.diceroller
 
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.widget.SwitchCompat
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -35,9 +37,13 @@ class MainActivity : AppCompatActivity() {
 
         // Find the Button in the layout
         val rollButton: Button = findViewById(R.id.button)
-
+        val switch: SwitchCompat = findViewById(R.id.switch1)
         // Set a click listener on the button to roll the dice when the user taps the button
-        rollButton.setOnClickListener { rollDice() }
+        rollButton.setOnClickListener {
+            if(switch.isChecked)
+                showMessage()
+            rollDice()
+        }
     }
 
     /**
@@ -51,6 +57,10 @@ class MainActivity : AppCompatActivity() {
         // Update the screen with the dice roll
         val resultTextView: TextView = findViewById(R.id.textView)
         resultTextView.text = diceRoll.toString()
+    }
+
+    private fun showMessage(){
+        Toast.makeText(this, getString(R.string.message), Toast.LENGTH_SHORT).show()
     }
 }
 
