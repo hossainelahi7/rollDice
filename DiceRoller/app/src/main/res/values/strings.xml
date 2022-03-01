@@ -16,5 +16,6 @@
     <string name="app_name">Dice Roller</string>
     <string name="roll">Roll</string>
     <string name="messageOnOff">Show Message</string>
-    <string name="message">Dice Rolled</string>
+    <string name="message">Dice rolled </string>
+    <string name="congratulation">Congratulation! you rolled </string>
 </resources>

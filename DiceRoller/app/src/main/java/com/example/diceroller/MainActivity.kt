@@ -40,27 +40,27 @@ class MainActivity : AppCompatActivity() {
         val switch: SwitchCompat = findViewById(R.id.switch1)
         // Set a click listener on the button to roll the dice when the user taps the button
         rollButton.setOnClickListener {
-            if(switch.isChecked)
-                showMessage()
-            rollDice()
+            rollDice(switch.isChecked)
         }
     }
 
     /**
      * Roll the dice and update the screen with the result.
      */
-    private fun rollDice() {
+    private fun rollDice(showMessage : Boolean) {
         // Create new Dice object with 6 sides and roll it
         val dice = Dice(6)
         val diceRoll = dice.roll()
-
+        if (showMessage) showMessage (diceRoll, dice.luckyNumber)
         // Update the screen with the dice roll
         val resultTextView: TextView = findViewById(R.id.textView)
         resultTextView.text = diceRoll.toString()
     }
 
-    private fun showMessage(){
-        Toast.makeText(this, getString(R.string.message), Toast.LENGTH_SHORT).show()
+    private fun showMessage(diceNumber : Int, luckyNumber : Int){
+        val message =
+            if (diceNumber == luckyNumber) getString(R.string.congratulation) +" "+ diceNumber else getString(R.string.message) +" "+ diceNumber
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
 
@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity() {
  * Dice with a fixed number of sides.
  */
 class Dice(private val numSides: Int) {
+
+    val luckyNumber = numSides/2 + 1
 
     /**
      * Do a random dice roll and return the result.
