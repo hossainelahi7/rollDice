@@ -15,11 +15,15 @@
  */
 package com.example.diceroller
 
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.widget.SwitchCompat
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -31,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * This method is called when the Activity is created.
      */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -47,20 +52,35 @@ class MainActivity : AppCompatActivity() {
     /**
      * Roll the dice and update the screen with the result.
      */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun rollDice(showMessage : Boolean) {
         // Create new Dice object with 6 sides and roll it
         val dice = Dice(6)
         val diceRoll = dice.roll()
         if (showMessage) showMessage (diceRoll, dice.luckyNumber)
         // Update the screen with the dice roll
-        val resultTextView: TextView = findViewById(R.id.textView)
-        resultTextView.text = diceRoll.toString()
+//        val resultTextView: TextView = findViewById(R.id.textView)
+        val diceImage : ImageView = findViewById(R.id.imageView)
+        diceImage.setImageDrawable(getDrowableIds().get(diceRoll))
+//        resultTextView.text = diceRoll.toString()
     }
 
     private fun showMessage(diceNumber : Int, luckyNumber : Int){
         val message =
             if (diceNumber == luckyNumber) getString(R.string.congratulation) +" "+ diceNumber else getString(R.string.message) +" "+ diceNumber
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun getDrowableIds(): HashMap<Int, Drawable>{
+        val diceDrowable = HashMap<Int, Drawable>()
+        getDrawable(R.drawable.dice_1)?.let { diceDrowable.put(1, it) }
+        getDrawable(R.drawable.dice_2)?.let { diceDrowable.put(2, it) }
+        getDrawable(R.drawable.dice_3)?.let { diceDrowable.put(3, it) }
+        getDrawable(R.drawable.dice_4)?.let { diceDrowable.put(4, it) }
+        getDrawable(R.drawable.dice_5)?.let { diceDrowable.put(5, it) }
+        getDrawable(R.drawable.dice_6)?.let { diceDrowable.put(6, it) }
+        return diceDrowable
     }
 }
 
